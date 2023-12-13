@@ -6,9 +6,8 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Load spaCy English model
-model_path = os.path.join(os.path.dirname(__file__), 'en_core_web_sm-3.0.0')
-nlp = spacy.load(model_path)
+
+nlp = spacy.load('en_core_web_sm')
 
 
 def generate_hashtags_from_text(text, num_hashtags=250):
