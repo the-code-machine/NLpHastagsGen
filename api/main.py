@@ -2,14 +2,16 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import spacy
 from collections import Counter
-
+import os
 app = Flask(__name__)
 CORS(app)
 
 # Load spaCy English model
-nlp = spacy.load("en_core_web_sm")
+model_path = os.path.join(os.path.dirname(__file__), 'en_core_web_sm-3.0.0')
+nlp = spacy.load(model_path)
 
-def generate_hashtags_from_text(text, num_hashtags=50):
+
+def generate_hashtags_from_text(text, num_hashtags=250):
     # Process the text with spaCy
     doc = nlp(text)
 
@@ -39,7 +41,7 @@ def get_hashtags():
         hashtags = generate_hashtags_from_text(blog_text)
 
         # Format hashtags for the React side
-        formatted_hashtags = [{'value': hashtag, 'label': hashtag.capitalize()} for hashtag in hashtags]
+        formatted_hashtags = [{'value': hashtag, 'label': '#'+hashtag.capitalize()} for hashtag in hashtags]
 
         return jsonify({'hashtags': formatted_hashtags})
     except Exception as e:
