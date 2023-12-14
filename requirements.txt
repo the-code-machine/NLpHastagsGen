@@ -3,3 +3,5 @@ Flask-CORS
 Werkzeug
 spacy
 gunicorn
+-e git+https://github.com/explosion/spacy-models.git#egg=en_core_web_sm
+
