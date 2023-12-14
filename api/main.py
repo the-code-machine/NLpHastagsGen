@@ -2,29 +2,22 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import spacy
 from collections import Counter
-import os
+
 app = Flask(__name__)
 CORS(app)
 
-
-nlp = spacy.load('en_core_web_sm')
-
+# Load spaCy English model
+nlp = spacy.load("en_core_web_sm")
 
 def generate_hashtags_from_text(text, num_hashtags=250):
     # Process the text with spaCy
     doc = nlp(text)
 
-    # Extract named entities
-    named_entities = [ent.text.lower() for ent in doc.ents]
-
-    # Extract keywords (nouns and proper nouns) using spaCy
+    # Extract keywords (nouns and proper nouns)
     keywords = [token.text.lower() for token in doc if token.pos_ in ['NOUN', 'PROPN']]
 
-    # Combine named entities and keywords
-    all_keywords = named_entities + keywords
-
     # Use Counter to get the most common keywords
-    common_keywords = [keyword for keyword, _ in Counter(all_keywords).most_common(num_hashtags)]
+    common_keywords = [keyword for keyword, _ in Counter(keywords).most_common(num_hashtags)]
 
     return common_keywords
 
