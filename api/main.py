@@ -1,12 +1,25 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import spacy
-from collections import Counter
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-# Load spaCy English model
+# Function to download spaCy model
+def download_spacy_model(model_name):
+    try:
+        # Check if the model is already downloaded
+        spacy.load(model_name)
+    except IOError:
+        # Download the model if not found
+        print(f"Downloading spaCy model: {model_name}")
+        os.system(f"python -m spacy download {model_name}")
+
+# Download spaCy model during app startup
+download_spacy_model("en_core_web_sm")
+
+# Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
 def generate_hashtags_from_text(text, num_hashtags=250):
