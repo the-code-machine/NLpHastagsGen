@@ -23,7 +23,7 @@ download_spacy_model("en_core_web_sm")
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
-def generate_hashtags_from_text(text, num_hashtags=250):
+def generate_hashtags_from_text(text, num_hashtags=25):
     # Process the text with spaCy
     doc = nlp(text)
 
